@@ -1,15 +1,15 @@
 <?php
 include("inc/settings.php");
 $per_page=30;
-$maxlevel=2;
+$maxlevel=120;
 $oper=$_POST['oper'];
-//$equip_parent=$_POST['equip_parent'];
+//$catalog_parent=$_POST['catalog_parent'];
 
-if(!isAllowed("requipment")) {die("У Вас недостаточно прав для просмотра этой страницы");}
+if(!isAllowed("pCatalogEdit")) {die("У Вас недостаточно прав для просмотра этой страницы");}
 if($sortby) $sortparam="&sortby=$sortby&sortdir=$sortdir"; else $sortparam="";
-if (!isset($equip_parent)) $equip_parent=0;
+if (!isset($catalog_parent)) $catalog_parent=0;
 if (!isset($curr_page)) $curr_page=0;
-$_SESSION["pageback"]="$PHP_SELF?curr_page=$curr_page&equip_parent=$equip_parent$sortparam";
+$_SESSION["pageback"]="$PHP_SELF?curr_page=$curr_page&catalog_parent=$catalog_parent$sortparam";
 //$backpage="newspage.php";
 if(!($sortby)) $sortby='page_name'; else {$sortby=explode(" ",$sortby);$sortby=$sortby[0];}
 
@@ -20,16 +20,16 @@ else
 }
 
 $mainquery="SELECT
-				{$PREFFIX}_equip.equip_code,
-				{$PREFFIX}_equip.equip_pos,
-				{$PREFFIX}_equip.equip_url,
+				{$PREFFIX}_catalog.catalog_code,
+				{$PREFFIX}_catalog.catalog_pos,
+				{$PREFFIX}_catalog.catalog_url,
 				{$PREFFIX}_page.page_code,
 				{$PREFFIX}_page.page_name,
 				{$PREFFIX}_page.page_active
 			FROM
-			{$PREFFIX}_equip
-			INNER JOIN {$PREFFIX}_page ON {$PREFFIX}_equip.page_code = {$PREFFIX}_page.page_code
-			WHERE {$PREFFIX}_equip.equip_parent=$equip_parent
+			{$PREFFIX}_catalog
+			INNER JOIN {$PREFFIX}_page ON {$PREFFIX}_catalog.page_code = {$PREFFIX}_page.page_code
+			WHERE {$PREFFIX}_catalog.catalog_parent=$catalog_parent
 			order by $sortby $realsortdir";
 //echo $mainquery;
 if (!empty($oper))
@@ -51,11 +51,11 @@ if (!$err)
 }
 if (!$err)
 {
-  $res=mysql_query("update {$PREFFIX}_equip set equip_pos=equip_pos+1 where equip_pos>=$equip_pos and {$PREFFIX}_equip.equip_parent=$equip_parent");
-  $query="insert into {$PREFFIX}_equip (equip_pos,equip_url,page_code, equip_parent) values('$equip_pos','$equip_url',$page_code, $equip_parent)";
+  $res=mysql_query("update {$PREFFIX}_catalog set catalog_pos=catalog_pos+1 where catalog_pos>=$catalog_pos and {$PREFFIX}_catalog.catalog_parent=$catalog_parent");
+  $query="insert into {$PREFFIX}_catalog (catalog_pos,catalog_url,page_code, catalog_parent) values('$catalog_pos','$catalog_url',$page_code, $catalog_parent)";
   $result=mysql_query($query) or $err=1;//die("Не могу добавить страницу:<br>$query<br>".mysql_error());
   $news_code=mysql_insert_id();
-//  RenumeratePos("{$PREFFIX}_equip","equip_code","equip_pos","equip_parent",$equip_parent);
+//  RenumeratePos("{$PREFFIX}_catalog","catalog_code","catalog_pos","catalog_parent",$catalog_parent);
 }
 
 if(!$err)
@@ -84,7 +84,7 @@ if ($oper=="D")
          $query = "delete from {$PREFFIX}_page where page_code=$varCode";
          $resultdel = mysql_query($query) or $err+=10;
 
-         $query = "delete from {$PREFFIX}_equip where page_code=$varCode";
+         $query = "delete from {$PREFFIX}_catalog where page_code=$varCode";
          $resultdel = mysql_query($query) or $err+=10;
       }
   }
@@ -118,7 +118,7 @@ if (!strcasecmp($oper,"U"))
 //  RenumeratePos("{$PREFFIX}_static","static_code","static_pos","part_code",$part_code);
 
 }//if  (UPD)
-   header("Location: $PHP_SELF?err=$err&equip_parent=$equip_parent$sortparam");
+   header("Location: $PHP_SELF?err=$err&catalog_parent=$catalog_parent$sortparam");
 }//empty
 ?>
 
@@ -136,7 +136,7 @@ document.data.submit();
 
 function GotoSub(pc)
 {
-	document.data.equip_parent.value=pc;
+	document.data.catalog_parent.value=pc;
 	document.data.submit();
 }
 
@@ -193,30 +193,30 @@ if (confirm('Вы уверены, что хотите удалить элеме�
 
 <?php
 //*********************  Поиск по дереву  *******************************
-$ep=$equip_parent;
+$ep=$catalog_parent;
 $level=0;
 $outs="";
 while ($ep)
 {$level++;
  $pq="SELECT
- {$PREFFIX}_equip.equip_code,
- {$PREFFIX}_equip.equip_parent,
+ {$PREFFIX}_catalog.catalog_code,
+ {$PREFFIX}_catalog.catalog_parent,
  {$PREFFIX}_page.page_name
  FROM
- {$PREFFIX}_equip
- INNER JOIN {$PREFFIX}_page ON {$PREFFIX}_equip.page_code = {$PREFFIX}_page.page_code
- WHERE {$PREFFIX}_equip.equip_code=$ep";
+ {$PREFFIX}_catalog
+ INNER JOIN {$PREFFIX}_page ON {$PREFFIX}_catalog.page_code = {$PREFFIX}_page.page_code
+ WHERE {$PREFFIX}_catalog.catalog_code=$ep";
 
- $res=mysql_query($pq) or die("Incorrect Equip queery: ".$pq) ;
+ $res=mysql_query($pq) or die("Incorrect catalog queery: ".$pq) ;
  list($ec,$ep,$en)=mysql_fetch_array($res);
  if (!isset($praparent) and (isset($lastlev))) $praparent=$ec;
  if (!isset($lastlev)) $lastlev=$en;
  
- $outs="<a href=$PHP_SELF?equip_parent=$ec$sortparam>$en</a> / ".$outs;
+ $outs="<a href=$PHP_SELF?catalog_parent=$ec$sortparam>$en</a> / ".$outs;
 }
-$outs="<a href=$PHP_SELF>Оборудование</a> / ".$outs;
+$outs="<a href=$PHP_SELF>Каталог</a> / ".$outs;
 echo " <div class=wmiddletext> &nbsp <a href='main.php'>Администрирование сайта</a> / ". $outs."</div>";
-if (!isset($lastlev)) $lastlev="Каталог оборудования";
+if (!isset($lastlev)) $lastlev="Каталог";
 //*********************  Поиск по дереву  *******************************
 ?>
 
@@ -238,11 +238,11 @@ if (!isset($lastlev)) $lastlev="Каталог оборудования";
 echo"<form name='data' action=$PHP_SELF method=POST>";
 echo"<input type=hidden name='oper' value=''>";
 echo"<input type=hidden name=curr_page value=\"$curr_page\">";
-echo"<input type=hidden name=equip_parent value=$equip_parent>";
+echo"<input type=hidden name=catalog_parent value=$catalog_parent>";
 echo"<input type=hidden name=sortby value=\"$sortby\">";
 echo"<input type=hidden name=sortdir value=\"$sortdir\">";
 echo"<input type=hidden name=level value=\"$level\">";
-$maxquery="select max(equip_pos) from {$PREFFIX}_equip WHERE {$PREFFIX}_equip.equip_parent=$equip_parent";
+$maxquery="select max(catalog_pos) from {$PREFFIX}_catalog WHERE {$PREFFIX}_catalog.catalog_parent=$catalog_parent";
 $result=mysql_query($maxquery) or die("Incorrect Max Query: ".$maxquery) ;
 list($max_pos)=mysql_fetch_array($result);
 $max_pos++;
@@ -272,13 +272,13 @@ $max_pos++;
  <tr height=30 >
     <td class=lmenutext> URL: </td>
     <td width=5></td>
-    <td><input name='equip_url' type=text style="width:250px" class=smalltext></td>
+    <td><input name='catalog_url' type=text style="width:250px" class=smalltext></td>
  </tr>
   -->
  <tr height=30 >
     <td class=lmenutext> Позиция: </td>
     <td width=5></td>
-    <td><input name='equip_pos' type=text style="width:250px" class=smalltext value='<?=$max_pos?>'></td>
+    <td><input name='catalog_pos' type=text style="width:250px" class=smalltext value='<?=$max_pos?>'></td>
  </tr>
  </table>
  </td>
@@ -309,12 +309,12 @@ $max_pos++;
 
 <table Border=0 CellSpacing=0 class=pagebluetable CellPadding=0 >
 <?php
- if ($equip_parent<>0)
+ if ($catalog_parent<>0)
  {
  	if (!isset($praparent)) $praparent=0; 
     echo  '<tr><td class=lmenutext height=60 bgcolor=#ffffff align="center"><h5>Подраздел: ';
  	echo"$lastlev";
-    echo  "</h5> <a href=$PHP_SELF?equip_parent=$praparent$sortparam> вернуться на предудущий уровень </a> </td></tr>";
+    echo  "</h5> <a href=$PHP_SELF?catalog_parent=$praparent$sortparam> вернуться на предудущий уровень </a> </td></tr>";
   }
  else echo"<br>";
  ?>
@@ -345,10 +345,10 @@ $max_pos++;
 <table Border=0 CellSpacing=1 class=bluetable CellPadding=4 width=100%>
   <tr class=lmenutext height=20 align=center bgcolor=#ffffff>
     <td width=20>&nbsp;</td>
-    <td><?=SortTitle("Позиция","equip_pos",$sortby,$sortdir);?></td>
+    <td><?=SortTitle("Позиция","catalog_pos",$sortby,$sortdir);?></td>
     <td><?=SortTitle("Наименование элемента","page_name",$sortby,$sortdir);?></td>
     <td width="60"><?=SortTitle("Актив.","page_active",$sortby,$sortdir);?></td>
-<!--      <td width="180"><?=SortTitle("URL","equip_URL",$sortby,$sortdir);?></td>
+<!--      <td width="180"><?=SortTitle("URL","catalog_URL",$sortby,$sortdir);?></td>
 -->
    <?php if ($level<$maxlevel) echo "<td width=40>Подкаталог</td>";
    ?>
@@ -368,19 +368,19 @@ $num_rows=mysql_num_rows($res);  //Количество строк
       mysql_data_seek($res,$start_pos);
       for ($x=$start_pos; $x<$end_pos; $x++)
       {
-         list($equip_code,$equip_pos,$equip_url,$page_code, $page_name, $page_active)=mysql_fetch_array($res);
+         list($catalog_code,$catalog_pos,$catalog_url,$page_code, $page_name, $page_active)=mysql_fetch_array($res);
          $checkname=$page_code;
          if($page_active) {$page_active="да";$bg="#FFFFFF";} else {$page_active="нет";$bg="#EEEEEE";}
          echo"<tr class=edittabletext height=24 bgcolor=$bg>";
          echo"<TD width=20 align=center ><input type='checkbox' name=\"C#$checkname\" id=\"C#$checkname\"></TD>";
-         echo"<TD align=center class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#equip_pos#string\");' id=\"F#$checkname#equip_pos#string\">".Show($equip_pos)."</TD>\n";
+         echo"<TD align=center class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#catalog_pos#string\");' id=\"F#$checkname#catalog_pos#string\">".Show($catalog_pos)."</TD>\n";
          echo"<TD align=left class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#page_name#string\");' id=\"F#$checkname#page_name#string\">".Show($page_name)."</TD>\n";
          echo"<TD class=smalltext align=center  ondblclick='change_yes_no(\"$checkname\",\"F#$checkname#page_active#int\");' id=\"F#$checkname#page_active#int\">".Show($page_active)."</TD>\n";
-    //     echo"<TD align=center class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#equip_url#string\");' id=\"F#$checkname#equip_url#string\">".Show($equip_url)."</TD>\n";
+    //     echo"<TD align=center class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#catalog_url#string\");' id=\"F#$checkname#catalog_url#string\">".Show($catalog_url)."</TD>\n";
     //    echo"<TD align=center class=smalltext align=center  ondblclick='change_line(\"$checkname\",\"F#$checkname#static_pos#int\");' id=\"F#$checkname#static_pos#int\">".Show($static_pos)."</TD>\n";
     //     <а href="javascript:toFunction(10,'text')" >Ссылка</а>
          if ($level<$maxlevel)
-         echo"<td align=center ><a href='javascript:GotoSub($equip_code)'><img height='20' width='20' src='graph/subitem.gif' border=0 title='Подкаталог'></a></td>";
+         echo"<td align=center ><a href='javascript:GotoSub($catalog_code)'><img height='20' width='20' src='graph/subitem.gif' border=0 title='Подкаталог'></a></td>";
          echo"<td align=center ><a href='editstatic.php?page_code=$page_code&page_name=$page_name'><img height='20' width='20' src='graph/edit.gif' border=0 title='Текст страницы'></a></td>";
          echo"<td align=center ><a href='editseo.php?page_code=$page_code&page_name=$page_name'><img height='20' width='20' src='graph/edit.gif' border=0 title='SEO'></a></td>";
          echo"<td><center><a href=\"picture.php?back=statlist&icon=250&page_code=$page_code\"><img height='24' width='24' src='graph/photo.gif' border=0 alt='Фотогалерея ' title='Фотогалерея'></a></td>";

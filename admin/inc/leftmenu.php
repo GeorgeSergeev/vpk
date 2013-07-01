@@ -35,7 +35,7 @@ if (isAllowed("pCatalogEdit"))
 {	
   echo "<p><div class=lmenupart><b>Каталог</b></div>";
   echo "<div class=jquery-tree>";
-   if (isAllowed("requipment"))  view_tree(1);
+   if (isAllowed("pCatalogEdit"))  view_tree(1);
   echo "</div>";
 }
 ?>

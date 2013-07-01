@@ -139,7 +139,7 @@ echo"</pre>";
   }//while
 }//if  (UPD)
    if($sortby) $tmp="&sortby=$sortby&sortdir=$sortdir";else $tmp="";
-   header("Location: $PHP_SELF?back=$back&curr_page=$curr_page&curr_p=$curr_p&artist_code=$artist_code&page_code=$page_code&icon=$icon$tmp&watermark=$watermark");
+   header("Location: $PHP_SELF?back=$back&curr_page=$curr_page&curr_p=$curr_p&artist_code=$artist_code&page_code=$page_code&icon=$icon$tmp&watermark=$watermark&langindex=$langindex");
 }//empty
 ?>
 
@@ -393,7 +393,7 @@ echo"</div><br>";
     $checkname=$picture_code."#".$picpos."#".$ext;
     echo"<tr class=edittabletext height=18 align=center bgcolor=#ffffff>";
     echo"<TD width=20 align=center ><input type='checkbox' name=\"C#$checkname\" id=\"C#$checkname\"></TD>";
-    echo"<TD ondblclick='change_line(\"$checkname\",\"F#$checkname#piccomment#string\")' id=\"F#$checkname#picpiccomment#string\" class=smalltext>".Show($piccomment)."</TD>\n";
+    echo"<TD ondblclick='change_line(\"$checkname\",\"F#$checkname#piccomment#string\")' id=\"F#$checkname#piccomment#string\" class=smalltext>".Show($piccomment)."</TD>\n";
     echo"<TD class=normaltext><img src=$picsmall></TD>\n";
     echo"  <td ondblclick='change_line(\"$checkname\",\"F#$checkname#picpos#int\");' class=smalltext id=\"F#$checkname#picpos#int\">".Show($picpos)."</td>";
     echo"</TR>\n";

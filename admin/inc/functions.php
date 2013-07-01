@@ -700,41 +700,46 @@ function putWatermark($image_file,$watermark_file,$save_file,$position="bottomri
 
 
 function view_tree($langcode) {
+	global $PREFFIX;
 	$catalogshort="SELECT DISTINCT
-	consul_equip.equip_code,
-	consul_equip.equip_parent,
-	consul_static.static_code,
-	consul_static.static_name
-	FROM consul_static
-	INNER JOIN consul_page ON consul_page.page_code = consul_static.page_code
-	INNER JOIN consul_equip ON consul_page.page_code = consul_equip.page_code
+	{$PREFFIX}_catalog.catalog_code,
+	{$PREFFIX}_catalog.catalog_parent,
+	{$PREFFIX}_static.static_code,
+	{$PREFFIX}_static.static_name
+	FROM {$PREFFIX}_static
+	INNER JOIN {$PREFFIX}_page ON {$PREFFIX}_page.page_code = {$PREFFIX}_static.page_code
+	INNER JOIN {$PREFFIX}_catalog ON {$PREFFIX}_page.page_code = {$PREFFIX}_catalog.page_code
 	WHERE (lang_code=$langcode) and (page_active>0)
 	ORDER BY static_name";
 
 	$query = mysql_query("$catalogshort") or  die("Ошибка выборки каталога ".$catalogshort);
-	while (list($equip_code,$equip_parent,$static_code,$static_name)= mysql_fetch_array($query)) {
-		if ($equip_parent == '0') { //echo $equip_code."  ".$equip_parent. " ". $static_name."<BR>";
-			$one_lvl[] = array ($equip_code, $equip_parent, $static_code,$static_name);
-		} else { //echo "Child ". $equip_code." ".$equip_parent. " ". $static_name ."<BR>";
-			$next_lvl[] = array ($equip_code, $equip_parent, $static_code,$static_name);
+	$rowCount = mysql_num_rows($query);
+	if ($rowCount>0)
+	{
+	while (list($catalog_code,$catalog_parent,$static_code,$static_name)= mysql_fetch_array($query)) {
+		if ($catalog_parent == '0') { //echo $catalog_code."  ".$catalog_parent. " ". $static_name."<BR>";
+			$one_lvl[] = array ($catalog_code, $catalog_parent, $static_code,$static_name);
+		} else { //echo "Child ". $catalog_code." ".$catalog_parent. " ". $static_name ."<BR>";
+			$next_lvl[] = array ($catalog_code, $catalog_parent, $static_code,$static_name);
 		}
 	}
 	print '<ul id="tree_one">';
 	foreach ($one_lvl as $key){
-		print '<li><a href="catalogpage.php?equip_parent='.$key[0].'">'.$key[3].'</a>';
+		print '<li><a href="catalogpage.php?catalog_parent='.$key[0].'">'.$key[3].'</a>';
 		print '<ul>';
 		view_tree_next_level($key[0], $next_lvl);
 		print "</ul>";
 		print '</li>';
 	}
 	print '</ul>';
+	} 	
 }
 
 
 function view_tree_next_level($family, $next_lvl) {
 	foreach ($next_lvl as $key) {	
 		if ($key[1]==$family) {			
-			print ' <li><a href="catalogpage.php?equip_parent='.$key[0].'">'.$key[3].'</a></li>';						
+			print ' <li><a href="catalogpage.php?catalog_parent='.$key[0].'">'.$key[3].'</a></li>';						
 		}
 	}
 }
