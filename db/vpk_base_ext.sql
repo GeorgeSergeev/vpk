@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Июл 01 2013 г., 10:28
+-- Время создания: Июл 02 2013 г., 10:24
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.2.12
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `vpk_catalog` (
   `catalog_parent` int(11) NOT NULL,
   PRIMARY KEY (`catalog_code`),
   KEY `page_code` (`page_code`) USING HASH
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Дамп данных таблицы `vpk_catalog`
@@ -101,7 +101,12 @@ INSERT INTO `vpk_catalog` (`catalog_code`, `catalog_icon`, `catalog_pos`, `page_
 (4, NULL, 2, 10, '', 1),
 (5, NULL, 3, 11, '', 1),
 (6, NULL, 1, 12, '', 2),
-(7, NULL, 2, 13, '', 2);
+(7, NULL, 2, 13, '', 2),
+(8, NULL, 1, 14, '', 4),
+(9, NULL, 2, 15, '', 4),
+(10, NULL, 1, 16, '', 3),
+(11, NULL, 2, 17, '', 3),
+(12, NULL, 3, 18, '', 3);
 
 -- --------------------------------------------------------
 
@@ -201,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `vpk_page` (
   `page_url` varchar(255) CHARACTER SET cp1251 DEFAULT NULL,
   `page_type` varchar(10) NOT NULL DEFAULT 'static',
   PRIMARY KEY (`page_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Дамп данных таблицы `vpk_page`
@@ -216,11 +221,16 @@ INSERT INTO `vpk_page` (`page_code`, `page_name`, `page_active`, `page_url`, `pa
 (6, 'Контактная информация', 0, NULL, 'static'),
 (7, 'Оборудование', 1, NULL, 'department'),
 (8, 'Услуги', 1, NULL, 'department'),
-(9, 'Расходомеры', 0, NULL, 'department'),
-(10, 'Навигационные системы', 0, NULL, 'department'),
+(9, 'Расходомеры', 1, NULL, 'department'),
+(10, 'Навигационные системы', 1, NULL, 'department'),
 (11, 'Инструменты', 0, NULL, 'department'),
 (12, 'Сервис', 1, NULL, 'department'),
-(13, 'Монтажные работы', 1, NULL, 'department');
+(13, 'Монтажные работы', 1, NULL, 'department'),
+(14, 'Пеленг', 1, NULL, 'department'),
+(15, 'prof-GPS', 1, NULL, 'department'),
+(16, 'Счетчик топлива VZO 4', 1, NULL, 'department'),
+(17, 'ППО-40', 1, NULL, 'department'),
+(18, 'DFM-30', 1, NULL, 'department');
 
 -- --------------------------------------------------------
 
@@ -234,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `vpk_permission` (
   `permission_name` varchar(128) NOT NULL DEFAULT '',
   `permission_comment` varchar(128) NOT NULL,
   PRIMARY KEY (`permission_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Дамп данных таблицы `vpk_permission`
@@ -245,7 +255,8 @@ INSERT INTO `vpk_permission` (`permission_code`, `permission_name`, `permission_
 (2, 'pStaticTextEdit', 'Редактирование содержания статических страниц'),
 (3, 'pCatalogEdit', 'Редактирование каталога продукции и ислуг'),
 (4, 'pNewsEdit', 'Редактирование новостей'),
-(5, 'pPartnerEdit', 'Редактирование страниц партнеров');
+(5, 'pPartnerEdit', 'Редактирование страниц партнеров'),
+(6, 'pSolutionEdit', 'Редактирование проектных решений');
 
 -- --------------------------------------------------------
 
@@ -287,6 +298,7 @@ DROP TABLE IF EXISTS `vpk_solutions`;
 CREATE TABLE IF NOT EXISTS `vpk_solutions` (
   `solutions_code` int(11) NOT NULL DEFAULT '0',
   `page_code` int(11) NOT NULL,
+  `solutions_pos` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`solutions_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -323,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `vpk_static` (
   `static_url` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`static_code`),
   KEY `page_code` (`page_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=18 ;
 
 --
 -- Дамп данных таблицы `vpk_static`
@@ -341,7 +353,12 @@ INSERT INTO `vpk_static` (`static_code`, `page_code`, `static_name`, `static_tex
 (9, 10, 'Навигационные системы', '', 0, NULL, NULL, NULL, 1, '', NULL),
 (10, 11, 'Инструменты', '', 0, NULL, NULL, NULL, 1, '', NULL),
 (11, 12, 'Сервис', '', 0, NULL, NULL, NULL, 1, '', NULL),
-(12, 13, 'Монтажные работы', '', 0, NULL, NULL, NULL, 1, '', NULL);
+(12, 13, 'Монтажные работы', '', 0, NULL, NULL, NULL, 1, '', NULL),
+(13, 14, 'Пеленг', '', 0, NULL, NULL, NULL, 1, '', NULL),
+(14, 15, 'prof-GPS', '', 0, NULL, NULL, NULL, 1, '', NULL),
+(15, 16, 'Счетчик топлива VZO 4', '', 0, NULL, NULL, NULL, 1, '', NULL),
+(16, 17, 'ППО-40', '', 0, NULL, NULL, NULL, 1, '', NULL),
+(17, 18, 'DFM-30', '', 0, NULL, NULL, NULL, 1, '', NULL);
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
