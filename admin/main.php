@@ -52,7 +52,7 @@ if( (isAllowed("pAdmin")) || (isAllowed("pStaticTextEdit")) ) {
    &nbsp;";
 }
 
-if(isAllowed(("pNewsEdit")) || (isAllowed("pPartnerEdit")) || (isAllowed("pCatalogEdit")))
+if(isAllowed("pNewsEdit") || isAllowed("pPartnerEdit") || isAllowed("pCatalogEdit")||isAllowed("pSolutionEdit"))
 {
     echo"
  		<table class=grayhead Border=0 CellSpacing=0 CellPadding=0>
@@ -62,10 +62,9 @@ if(isAllowed(("pNewsEdit")) || (isAllowed("pPartnerEdit")) || (isAllowed("pCatal
  		<tr class=middletext align=center valign=top>";
 
 		if (isAllowed("pNewsEdit")) echo "<td><a href=\"newspage.php\"><img src=\"graph/newicon/news.png\" hspace=20 border=0><p class=\"space\">Новости</a></td>";
-		if (isAllowed("pCatalogEdit")) {
-			echo "<td><a href=\"catalogpage.php\"><img src=\"graph/icon/equipment.gif\"  hspace=20 border=0><p class=\"space\">Каталог</a></td>";
-			echo "<td><a href=\"designepage.php\"><img src=\"graph/icon/designe.gif\"  hspace=20 border=0><p class=\"space\">Проектные решения</a></td>";
-		}
+		if (isAllowed("pCatalogEdit")) 
+			echo "<td><a href=\"catalogpage.php\"><img src=\"graph/icon/equipment.gif\"  hspace=20 border=0><p class=\"space\">Каталог</a></td>";			
+		if (isAllowed("pSolutionEdit")) echo "<td><a href=\"solutions.php\"><img src=\"graph/icon/designe.gif\"  hspace=20 border=0><p class=\"space\">Проектные решения</a></td>";
 		if (isAllowed("pPartnerEdit")) echo"<td ><a href=\"partnerpage.php\"><img src=\"graph/newicon/rooms.png\"  hspace=20 border=0><p class=\"space\">Партнеры</a></td>";
 	echo "</tr></table></center>" ;
 }

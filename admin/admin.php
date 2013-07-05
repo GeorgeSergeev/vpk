@@ -323,7 +323,6 @@ while(list($admin_code,$admin_name,$admin_login,$admin_email,$admin_active)=mysq
  </table>
  </td></tr>
 </table>
-
 </form>
   </td>
   <td width=10></td>

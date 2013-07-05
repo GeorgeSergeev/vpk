@@ -26,7 +26,7 @@ if(isAllowed(("pNewsEdit")) || (isAllowed("pPartnerEdit")) || (isAllowed("pCatal
 	echo "<p><div class=lmenupart><b>Деятельность</b></div>";
 	if (isAllowed("pNewsEdit")) echo"<div class=lmenupart>&#187;&nbsp; <b><a href=\"newspage.php\"> Новости </a></b></div>";
 	if (isAllowed("pCatalogEdit")) {echo"<div class=lmenupart>&#187;&nbsp; <b><a href=\"catalogpage.php\">Каталог</a></b></div>";
-	                                echo "<div class=lmenupart>&#187;&nbsp; <b><a href=\"designepage.php\">Проектные решения</a></b></div>";
+	                                echo "<div class=lmenupart>&#187;&nbsp; <b><a href=\"solutions.php\">Проектные решения</a></b></div>";
 	}
 	if (isAllowed("pPartnerEdit")) echo"<div class=lmenupart>&#187;&nbsp; <b><a href=\"partnerpage.php\">Партнеры</a></b></div>";
 }

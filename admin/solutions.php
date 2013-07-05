@@ -15,7 +15,10 @@ else
  if($sortdir==0) {$realsortdir="DESC";} else {$sortdir=1;$realsortdir="ASC";}
 }
 
-
+$maxquery="select max(solutions_pos) from {$PREFFIX}_solutions";
+$result=mysql_query($maxquery) or die("Incorrect Max Query: ".$maxquery) ;
+list($max_pos)=mysql_fetch_array($result);
+$max_pos++;
 
 $mainquery="SELECT
 			{$PREFFIX}_solutions.solutions_code,
@@ -40,7 +43,7 @@ $result=mysql_query($query) or die("Не могу добавить страни�
 if (!$err)
 {
   $page_code=mysql_insert_id();
-  $query="insert into {$PREFFIX}_solutions (solutions_pos,solutions_url,page_code) values('$solutions_pos','$solutions_url',$page_code)";
+  $query="insert into {$PREFFIX}_solutions (solutions_pos,page_code) values($solutions_pos,$page_code)";
   $result=mysql_query($query) or die("Не могу добавить страницу:<br>$query<br>".mysql_error()); //$err=1;//
   $solutions_code=mysql_insert_id();
 }
@@ -205,17 +208,17 @@ echo"<input type=hidden name=sortdir value=\"$sortdir\">";
  <tr><td colspan=3 height=1 bgcolor=#ffffff></td></tr>
  <tr><td>
  <center>
-  <table cellpadding=2  cellspacing=0>
- <tr height=30 >
-    <td class=lmenutext>Позиция :</td>
-    <td width=5></td>
-    <td><input name='solutions_pos' type=text style="width:250px" class=smalltext value='1000'></td>
- </tr>
+  <table cellpadding=2  cellspacing=0> 
  <tr height=30 >
     <td class=lmenutext>Название решения (девиз):</td>
     <td width=5></td>
     <td><input name='page_name' type=text style="width:250px" class=smalltext></td>
  </tr>
+<tr height=30 >
+    <td class=lmenutext>Позиция :</td>
+    <td width=5></td>
+    <td><input name='solutions_pos' type=text style="width:250px" class=smalltext value='<?=$max_pos?>'></td>
+ </tr> 
  <!--  <tr height=30 >
     <td class=lmenutext> URL: </td>
     <td width=5></td>
@@ -296,7 +299,7 @@ $num_rows=mysql_num_rows($res);  //Количество строк
       mysql_data_seek($res,$start_pos);
       for ($x=$start_pos; $x<$end_pos; $x++)
       {
-         list($solutions_code,$solutions_date,$solutions_url,$page_code, $page_name, $page_active)=mysql_fetch_array($res);
+         list($solutions_code,$solutions_pos,$page_code, $page_name, $page_active)=mysql_fetch_array($res);
          $checkname=$page_code;
          if($page_active) {$page_active="да";$bg="#FFFFFF";} else {$page_active="нет";$bg="#EEEEEE";}
          echo"<tr class=edittabletext height=24 bgcolor=$bg>";
