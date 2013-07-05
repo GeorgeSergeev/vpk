@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Июл 02 2013 г., 10:24
+-- Время создания: Июл 04 2013 г., 10:11
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.2.12
 
@@ -63,14 +63,16 @@ CREATE TABLE IF NOT EXISTS `vpk_admins_permission` (
 --
 
 INSERT INTO `vpk_admins_permission` (`permission_code`, `admin_code`) VALUES
+(2, '3'),
+(3, '3'),
+(4, '3'),
+(5, '3'),
 (1, '2'),
 (2, '2'),
 (3, '2'),
 (4, '2'),
-(2, '3'),
-(3, '3'),
-(4, '3'),
-(5, '3');
+(5, '2'),
+(6, '2');
 
 -- --------------------------------------------------------
 
@@ -206,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `vpk_page` (
   `page_url` varchar(255) CHARACTER SET cp1251 DEFAULT NULL,
   `page_type` varchar(10) NOT NULL DEFAULT 'static',
   PRIMARY KEY (`page_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Дамп данных таблицы `vpk_page`
@@ -230,7 +232,10 @@ INSERT INTO `vpk_page` (`page_code`, `page_name`, `page_active`, `page_url`, `pa
 (15, 'prof-GPS', 1, NULL, 'department'),
 (16, 'Счетчик топлива VZO 4', 1, NULL, 'department'),
 (17, 'ППО-40', 1, NULL, 'department'),
-(18, 'DFM-30', 1, NULL, 'department');
+(18, 'DFM-30', 1, NULL, 'department'),
+(26, 'Автопарк', 0, NULL, 'solutions'),
+(27, 'Скорая помощь', 0, NULL, 'solutions'),
+(28, 'Железная дорога', 0, NULL, 'solutions');
 
 -- --------------------------------------------------------
 
@@ -296,11 +301,20 @@ INSERT INTO `vpk_picture` (`picture_code`, `page_code`, `picsmall`, `picbig`, `p
 
 DROP TABLE IF EXISTS `vpk_solutions`;
 CREATE TABLE IF NOT EXISTS `vpk_solutions` (
-  `solutions_code` int(11) NOT NULL DEFAULT '0',
+  `solutions_code` int(11) NOT NULL AUTO_INCREMENT,
   `page_code` int(11) NOT NULL,
   `solutions_pos` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`solutions_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Дамп данных таблицы `vpk_solutions`
+--
+
+INSERT INTO `vpk_solutions` (`solutions_code`, `page_code`, `solutions_pos`) VALUES
+(4, 26, 1),
+(5, 27, 2),
+(6, 28, 3);
 
 -- --------------------------------------------------------
 
