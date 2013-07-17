@@ -1,6 +1,6 @@
 <?php
 include("inc/settings.php");
-
+//test
 if(!isAllowed("pAdmin")) {die("У Вас недостаточно прав для просмотра этой страницы");}
 
 $oper=$_POST['oper'];
