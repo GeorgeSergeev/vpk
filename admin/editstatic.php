@@ -254,7 +254,7 @@ function alertContents(httpRequest) {
          $labeltext='Ссылка на внешнюю страницу:';
          if ($page_type=="catalog") $labeltext='Ссылка на сайт производителя:';
          print $labeltext;
-         print '<br> <input type="text" name="page_url" style="width:100%px;" value="'.$page_url.'"><p>';
+         print '<br> <input type="text" name="page_url" style="width:550px;" value="'.$page_url.'"><p>';
          print '</td></tr>';
      }
      if ($page_type=="catalog")
