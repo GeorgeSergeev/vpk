@@ -16,7 +16,7 @@ if ($oper=='I')
  $err=0;
 
 mysql_query("start transaction;");
- $query="insert into {$PREFFIX}_admin (admin_code,admin_name,admin_login,admin_password,admin_email,admin_active) values(0,'$admin_name','$admin_login',md5('$admin_pass'),'$admin_email',$admin_active)";
+ $query="insert into {$PREFFIX}_admin (admin_code,admin_name,admin_login,admin_password,admin_email,admin_active) values(0,'$admin_name','$admin_login',md5('$admin_password'),'$admin_email',$admin_active)";
  $result=mysql_query($query) or $err=1;
 
 if(!$err)
@@ -62,9 +62,9 @@ if (!strcasecmp($oper,"U"))
       if ($varName=="F")
       {
          if ($varType=="string") $tmp="'"; else $tmp="";
-         if($varField=="admin_pass") $value=md5($value);
-         $sqlupd = "update {$PREFFIX}_admin set $varField=$tmp".$value."$tmp  where admin_code=$varCode";
-//         echo"$sqlupd";
+         if($varField=="admin_password") $value=md5($value);
+         $sqlupd = "$varField update {$PREFFIX}_admin set $varField=$tmp".$value."$tmp  where admin_code=$varCode";
+         echo"$sqlupd";
             $resultupd = MYSQL_QUERY($sqlupd) or $err-=10;
       }//if ($varName=="F")
      }
@@ -300,7 +300,7 @@ while(list($admin_code,$admin_name,$admin_login,$admin_email,$admin_active)=mysq
     echo"<TD width=20 align=center ><input type='checkbox' name=\"C#$checkname\" id=\"C#$checkname\"></TD>";
     echo"<TD class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#admin_name#string\");' id=\"F#$checkname#admin_name#string\">".Show($admin_name)."</TD>\n";
     echo"<TD class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#admin_login#string\");' id=\"F#$checkname#admin_login#string\">".Show($admin_login)."</TD>\n";
-    echo"<TD class=gray class=smalltext align=center  ondblclick='change_pass(\"$checkname\",\"F#$checkname#admin_pass#string\");' id=\"F#$checkname#admin_pass#string\"><i>закодирован</i></TD>\n";
+    echo"<TD class=gray class=smalltext align=center  ondblclick='change_pass(\"$checkname\",\"F#$checkname#admin_password#string\");' id=\"F#$checkname#admin_password#string\"><i>закодирован</i></TD>\n";
     echo"<TD class=smalltext ondblclick='change_line(\"$checkname\",\"F#$checkname#admin_email#string\");' id=\"F#$checkname#admin_email#string\">".Show($admin_email)."</TD>\n";
     echo"<TD class=smalltext align=center ondblclick='change_yes_no(\"$checkname\",\"F#$checkname#admin_active#int\");' id=\"F#$checkname#admin_active#int\">".Show($admin_active)."</TD>\n";
     echo"<td align=center ><a href='permission.php?admin_code=".$admin_code."' class=\"hand\"><img height='24' width='24' src='graph/rights.gif' border=0 alt='Установить права доступа' title='Установить права доступа'></a></td>";
