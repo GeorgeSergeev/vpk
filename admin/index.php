@@ -34,7 +34,7 @@ function sendloginpassw() {
 
 <center>
 
-<img src="../img/logo.gif" border=0><br><br>
+<img src="./img/logo.gif" border=0><br><br>
 
 <form name=userform action='<?$PHP_SELF?>' method=POST enctype=multipart/form-data>
 <input type=hidden name=op value='in'>
