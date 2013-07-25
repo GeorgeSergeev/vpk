@@ -240,7 +240,7 @@ function alertContents(httpRequest) {
      </td></tr>
      <?php
        if ($page_type!="static")  {
-        print '<tr><td class=lmenutext>Аннотация  [$langname]:<br>';
+        print '<tr><td class=lmenutext>Аннотация  ['.$langname.']:<br>';
         print '<textarea name="static_abstract" style="width:100%;height:200px;">'. $static_abstract.'</textarea><p>';
         print '</td></tr>';
        }
