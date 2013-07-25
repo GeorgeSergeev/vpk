@@ -3,7 +3,7 @@ include("inc/settings.php");
 $per_page=30;
 $oper=$_POST['oper'];
 
-if(!isAllowed("requipment")) {die("У Вас недостаточно прав для просмотра этой страницы");}
+if(!isAllowed("pPartnerEdit")) {die("У Вас недостаточно прав для просмотра этой страницы");}
 if($sortby) $tmp="?sortby=$sortby&sortdir=$sortdir"; else $tmp="";
 $back_url=$PHP_SELF.$tmp;
 $_SESSION["pageback"]=$back_url;
