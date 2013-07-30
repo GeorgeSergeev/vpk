@@ -7,6 +7,10 @@ if(!isAllowed("pStaticEdit")) {die("У Вас недостаточно прав 
 $err=0;
     if (!empty($oper))
     {
+    	$static_text=mysql_real_escape_string($static_text);
+    	$static_abstract=mysql_real_escape_string($static_abstract);
+    	$static_name=mysql_real_escape_string($static_name);
+    	 
     	$err=0;
      	if (($oper=='I' or $oper=='U') and (isset($page_url)))
     	{
