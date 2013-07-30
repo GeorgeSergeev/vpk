@@ -1,0 +1,12 @@
+<div class='mybox'>
+<h4>Проектные решения</h4>
+  <div class='ym-contain-fl ym-clearfix'>
+	<loop:solutions>
+		<div class='solution'>
+			<a  href='solutions.php?id=<tag:solutions[].solutions_code />'> <tag:solutions[].static_name /> </a>
+			<a  href='solutions.php?id=<tag:solutions[].solutions_code />'><img src='<tag:solutions[].img_src />' title='<tag:solutions[].static_name />'></a>
+		</div>
+ 	</loop:solutions>
+  </div> 	
+ <a class='link_all' href='solutions.php'>Все проектные решения...</a>
+</div>

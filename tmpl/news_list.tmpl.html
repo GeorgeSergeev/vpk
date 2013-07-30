@@ -1,0 +1,14 @@
+<div class='mybox'>
+<h4>Новости</h4>
+	<loop:news>
+		<div class='news ym-contain-fl'>
+			<img src='<tag:news[].img_src />' />
+			<a  href='news.php?id=<tag:news[].news_code />'> <tag:news[].news_date /> </a>
+			<span class=title><tag:news[].static_name /></span>
+ 			<tag:news[].static_abstract />
+			<a class='float-right' href='news.php?id=<tag:news[].news_code />'>Подробнее...</a>
+		</div>
+ 	</loop:news>
+	<a class='link_all' href='news.php?'>Все новости...</a>
+
+</div>

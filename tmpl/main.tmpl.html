@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8"/>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title><tag:title /></title>
+	<meta name="keywords" content="<tag:keywords />" />
+	<meta name="description" content="<tag:descr />" />
+	<tag:in_head />
+
+	<link href="./css/styles.css" rel="stylesheet" type="text/css"/>
+	<!--[if lte IE 7]>
+	<link href="css/yaml/core/iehacks.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+
+	<!--[if lt IE 9]>
+	<script src="lib/html5shiv/html5shiv.js"></script>
+	<![endif]-->
+	<script src="lib/jquery-1.10.1.min.js"></script>
+	<script src="lib/jquery-migrate-1.2.1.min.js"></script>
+	<script src="lib/dropdown.js"></script>
+
+</head>
+<body>
+
+<header>
+  <div id=header>
+	<div>
+		<h1>МОНИТОРИНГ ТРАНСПОРТА</h1>
+		<h2>Всё под контролем!</h2>
+		<h3>ООО "ВПК+"</h3>
+	</div>
+	<div id=header-shadow> </div>
+  </div>	
+</header>  
+
+
+<nav id="nav">
+	<div class="ym-wrapper">
+		<div class="ym-hlist">
+			<ul>
+				<li><a href="index.php">Главная</a></li>
+				<li class="border"></li>
+				<li><a href="#">О проекте</a></li>
+				<li class="border"></li>
+				<li><a href="news.php">Новости</a></li>
+				<li class="border"></li>
+				<li><a href="solutions.php">Проектные решения</a>
+
+        				<tag:solutions_li />
+
+      			</li>
+				<li class="border"></li>
+				<li><a href="#">Товары и услуги</a>
+					
+        				<tag:catalog_li />
+      				
+				</li>
+				<li class="border"></li>
+				<li><a href="partners.php">Партнеры</a></li>
+				<li class="border"></li>
+				<li><a href="contacts.php">Контактная информация</a></li>
+			</ul>
+			<!--form class="ym-searchform">
+				<input class="ym-searchfield" type="search" placeholder="Search..." />
+				<input class="ym-searchbutton" type="submit" value="Search" />
+			</form-->
+		</div>
+	</div>
+</nav>
+<main>
+	<div class="ym-wrapper">
+		<div class="ym-wbox">
+			<section class="ym-grid linearize-level-1 main">
+				<div class="ym-column effect8">
+  					<div class="ym-col1">
+					    <div class="ym-cbox ym-clearfix">
+							<nav class="ym-vlist ">
+  							<ul>
+    							<li><span>Товары и услуги</span>
+      								
+									<tag:catalog_li_left />
+
+    							</li>
+    							<!--li><span>Готовые решения</span>
+      								<ul>
+        								<li><a href="#">Автотранспорт</a></li>
+        								<li><a href="#">Тепловозы</a></li>
+        								<li><a href="#">Суда</a></li>
+      								</ul>
+    							</li>
+    							<li><a href="#">Link 4</a></li>
+    							<li><a href="#">Link 5</a></li-->
+  							</ul>
+							</nav>
+							<h6>Контактная информация</h6>
+							<div class="hr"> </div>
+							<tag:contacts />
+
+    					</div>
+  					</div>
+  					<div class="ym-col3">
+    					<div class="ym-cbox ym-clearfix">
+    							<div class=navigation_line><tag:navigation_line /></div>
+
+    							<tag:content />
+
+						</div>		
+    				</div>
+  				</div>
+			
+			</section>
+
+			<tag:partners_block />
+			
+				
+			
+		</div>
+	</div>
+</main>
+<footer>
+	<div class="ym-wrapper">
+		<div class="ym-wbox">
+			<span>© ООО "ВПК+" 2013</span>
+		</div>
+	</div>
+</footer>
+
+<!-- full skip link functionality in webkit browsers -->
+<script src="./css/yaml/core/js/yaml-focusfix.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<div class='center'>
+<h4>Наши партнеры</h4>
+  <div class='center'>
+	<loop:partners>
+		<div class='partner'>
+			<a  href='partners.php?id=<tag:partners[].partner_code />'><img src='<tag:partners[].img_src />' title='<tag:partners[].static_name />'></a>
+		</div>
+ 	</loop:partners>
+  </div> 	
+</div>
