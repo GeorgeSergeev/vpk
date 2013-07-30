@@ -2,7 +2,7 @@
 include("inc/settings.php");
 $oper=$_POST['oper'];
 
-if (!isset($icon)) $icon=150;
+if (!isset($icon)) $icon=100;
 
 $per_page=10;
 
@@ -39,6 +39,9 @@ if ($oper=='I')
       $itype=$size[2];
       if ($itype==IMAGETYPE_JPEG)  $im=imagecreatefromjpeg("../images/$big");
       elseif ($itype==IMAGETYPE_PNG)  $im=imagecreatefrompng("../images/$big");
+      elseif ($itype==IMAGETYPE_GIF)  $im=imagecreatefromgif("../images/$big");
+      elseif ($itype==IMAGETYPE_BMP)  $im=imagecreatefromwbmp("../images/$big");
+      
             else die("<div align=center>Данный тип изображений не поддерживается. <a href='javascript:history.back(-1);'>Назад</a></div>");
       if(trim($LOGOFILE)&&($watermark==1))
       {
@@ -48,9 +51,14 @@ if ($oper=='I')
       $rate=$size[0]/$icon;
       $height=round($size[1]/$rate);
       $imsm=imagecreatetruecolor($icon,$height);
+      $black = imagecolorallocate($im, 0, 0, 0);      
+      // Сделаем фон прозрачным
+      imagecolortransparent($im, $black);
       imagecopyresampled($imsm, $im, 0, 0, 0, 0, $icon, $height, $size[0], $size[1]);
       if ($itype==IMAGETYPE_JPEG)  $im1=imagejpeg($imsm,"../images/$small");
       elseif ($itype==IMAGETYPE_PNG) $im1=imagepng($imsm,"../images/$small");
+      elseif ($itype==IMAGETYPE_GIF)  $im1=imagegif($imsm,"../images/$small");
+      elseif ($itype==IMAGETYPE_BMP)  $im1=imagewbmp($imsm,"../images/$small");
   }
   $res=mysql_query("update {$PREFFIX}_picture set picpos=picpos+1 where picpos>=$picpos and page_code=$page_code");
   $query="insert into {$PREFFIX}_picture (page_code,picsmall,picbig,picpos,piccomment,language_code) values($page_code,'$small','$big',$picpos,'$piccomment',$langindex)";
@@ -270,7 +278,7 @@ if ($page_code==0)
  <tr height=30 >
     <td class=lmenutext>Изображение:</td>
     <td width=5></td>
-    <td><input name='picbig' type=file style="width:150px" class=smalltext></td>
+    <td><input name='picbig' type=file style="width:250px" class=smalltext></td>
     <td width=5></td>
     <td class=lmenutext>Размер&nbsp;иконки:</td>
     <td width=5></td>
