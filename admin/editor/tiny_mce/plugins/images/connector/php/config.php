@@ -2,7 +2,7 @@
 
 //Корневая директория сайта
 
-define('SITE_FOLDER',	'/work/vpk');
+define('SITE_FOLDER',	'');
 
 define('DIR_ROOT',		$_SERVER['DOCUMENT_ROOT'].SITE_FOLDER);
 //Директория с изображениями (относительно корневой)

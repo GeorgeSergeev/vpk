@@ -1,4 +1,4 @@
-var SITE_FOLDER='/work/alo'
+var SITE_FOLDER=''
 
 var ImagesDialog = {
 	init : function(ed) {
