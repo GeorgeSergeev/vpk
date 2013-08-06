@@ -9,7 +9,8 @@
                 convert_urls : false,
                 language : "ru",
                 mode : "exact",
-
+				valid_elements : '*[*]',
+                
                 theme : "advanced",
                 plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,images,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 
@@ -28,7 +29,7 @@
                 skin_variant : "silver",
 
                 // Example content CSS (should be your site CSS)
-                content_css : "../css/style.css",
+                content_css : "/css/styles.css",
 
                 // Drop lists for link/image/media/template dialogs
                 template_external_list_url : "js/template_list.js",

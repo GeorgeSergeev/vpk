@@ -388,15 +388,15 @@ function ChangeAlbumPageSpageName($artist_code,$artist_name)
 function isAllowed($permission)
 {
         global $REGUSER;
-        $user_permissions=$REGUSER["permissions"]; 
-    	$array = preg_split ("/[\s;]+/", $user_permissions);
-    	foreach($array as $index => $val)
-    	{   
-    		if (strcmp($permission, $val)==0) {
-    			return true;
-    		}
-    	}
-    	return false;
+        $user_permissions=$REGUSER["permissions"]; 
+    	$array = preg_split ("/[\s;]+/", $user_permissions);
+    	foreach($array as $index => $val)
+    	{   
+    		if (strcmp($permission, $val)==0) {
+    			return true;
+    		}
+    	}
+    	return false;
 }
 
 

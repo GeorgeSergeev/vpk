@@ -3,32 +3,33 @@ include("inc/settings.php");
 $per_page=30;
 $oper=$_POST['oper'];
 
-if(!isAllowed("rtext")) {die("У Вас недостаточно прав для просмотра этой страницы");}
+if(!isAllowed("pDictionaryEdit")) {die("У Вас недостаточно прав для просмотра этой страницы");}
 
-if(!($sortby)) $sortby='dict_code'; else {$sortby=explode(" ",$sortby);$sortby=$sortby[0];}
+if(!($sortby)) $sortby='essential_name'; else {$sortby=explode(" ",$sortby);$sortby=$sortby[0];}
 
 if(!isset($sortdir)) {$sortdir="";$realsortdir="ASC"; }
 else if(!intval($sortdir)) {$sortdir="";$realsortdir="ASC";} else {$sortdir="1";$realsortdir="DESC";}
 
 
-$mainquery="select {$PREFFIX}_dict.dict_code, dict_ru, dict_en
-            from {$PREFFIX}_dict
+$essentialquery="select * 
+            from {$PREFFIX}_essential
             order by $sortby $realsortdir";
 //echo $mainquery;
 if (!empty($oper))
 {
+$essential=mysql_real_escape_string($essential);	
 if ($oper=='I')
 {
  $err=0;
 mysql_query("start transaction;");
-$query="insert into {$PREFFIX}_dict values(0,'$dict_ru','$dict_en')";
+$query="insert into {$PREFFIX}_essential values (0,'$essential')";
 $result=mysql_query($query) or $err=1;//die("Не могу добавить фразу:".mysql_error());
 
 if(!$err)
   {
       mysql_query("commit;");
     //для постраничного-------------------------------------------------------------
-     $result=mysql_query($mainquery) or die("Incorrect Currpage Query") ;
+     $result=mysql_query($essentialquery) or die("Incorrect Currpage Query") ;
      $num_compl=mysql_num_rows($result);
      for($i=0;$i<$num_compl;$i++)
             if (mysql_result($result,$i,0)==$newunitcode) break;
@@ -42,6 +43,7 @@ if(!$err)
 
 if ($oper=="D")
 {
+/*	
   while (list($key,$value)=each($_POST))
   {
       unset($arr);
@@ -58,10 +60,12 @@ if ($oper=="D")
          $resultdel = mysql_query($query) or $err+=10;
       }
   }
+*/
 }//oper=D
 
 if (!strcasecmp($oper,"U"))
 {
+/*	
   $err=0;
   while (list($key,$value)=each($_POST))
   {
@@ -88,6 +92,7 @@ if (!strcasecmp($oper,"U"))
 }//if  (UPD)
    if($sortby) $tmp="&sortby=$sortby&sortdir=$sortdir"; else $tmp="";
    header("Location: $PHP_SELF?err=$err$tmp");
+ */  
 }//empty
 ?>
 
