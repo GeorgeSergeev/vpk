@@ -24,7 +24,7 @@ if ($oper=='I')
 mysql_query("start transaction;");
 $query="insert into {$PREFFIX}_essential values (0,'$essential')";
 $result=mysql_query($query) or $err=1;//die("Не могу добавить фразу:".mysql_error());
-
+$newunitcode=mysql_insert_id();
 if(!$err)
   {
       mysql_query("commit;");
@@ -224,8 +224,8 @@ echo"<input type=hidden name=sortdir value=\"$sortdir\">";
  if(intval($err)>=10) echo"<div class=smalltext align=center style='color:red;'>Ошибка при удалении фразы</div>";
  if(intval($err)==1) echo"<div class=smalltext align=center style='color:red;'>Ошибка при добавлении фразы</div>";
 
-$res=mysql_query ($mainquery) or die ("Не могу выбрать фразы. Ошибка в запросе.");
-  $num_rows=mysql_num_rows($res);
+$resEssential=mysql_query ($essentialquery) or die ("Не могу выбрать фразы. Ошибка в запросе.");
+  $num_rows=mysql_num_rows($resEssential);
   if($num_rows)
   {
       $page_quant=ceil($num_rows / $per_page); //всего страниц
@@ -243,9 +243,14 @@ for ($i=1;$i<$page_quant+1;$i++)
 echo"</div><br>";
 }
 
-
-  
-
+$dictionaryQuery="SELECT {$PREFFIX}_essential.essential_code,{$PREFFIX}_essential.essential_name,{$PREFFIX}_dictionary.dictionary_code,
+				  {$PREFFIX}_dictionary.language_code,{$PREFFIX}_dictionary.dictionary_translate FROM {$PREFFIX}_essential
+				  LEFT JOIN {$PREFFIX}_dictionary ON {$PREFFIX}_essential.essential_code = {$PREFFIX}_dictionary.essential_code";
+$resDictionary=mysql_query ($dictionaryQuery) or die ("Не могу выбрать перевод фраз. Ошибка в запросе $dictionaryQuery");
+$num_Dict=mysql_num_rows($resDict);				  
+$langQuery="SELECT {$PREFFIX}_language.language_code, {$PREFFIX}_language.language_name FROM {$PREFFIX}_language";
+$resLang=mysql_query ($langQuery) or die ("Не могу выбрать перечень языков. Ошибка в запросе $langQuery");
+$num_lang=mysql_num_rows($resLang);
 ?>
 
 
@@ -266,9 +271,13 @@ echo"</div><br>";
 <table Border=0 CellSpacing=1 class=bluetable CellPadding=4 width=100%>
   <tr class=lmenutext height=20 align=center bgcolor=#ffffff>
     <td width=20>&nbsp;</td>
-    <td width=50><?=SortTitle("Код","dict_code",$sortby,$sortdir);?></td>
-    <td><?=SortTitle("На русском","dict_ru",$sortby,$sortdir);?></td>
-    <td><?=SortTitle("На английском","dict_en",$sortby,$sortdir);?></td>
+    <td width=50><?=SortTitle("Код","essential_code",$sortby,$sortdir);?></td>
+    <?php  
+	for ($i=1;$i<$num_lang+1;$i++)
+ 	{ list($language_code,$language_name)=mysql_fetch_array($res);
+ 	  echo " <td>$language_name </td>";    	       	
+ 	}   
+ 	?> 
   </tr>
 
 <?php
@@ -281,7 +290,7 @@ echo"</div><br>";
     mysql_data_seek($res,$start_pos);
     for ($x=$start_pos; $x<$end_pos; $x++)
     {
-    list($dict_code,$dict_ru,$dict_en)=mysql_fetch_array($res);
+    
 
     $checkname=$dict_code;
     echo"<tr class=edittabletext height=24 bgcolor=#ffffff>";
